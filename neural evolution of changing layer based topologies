@@ -1,0 +1,75 @@
+\documentclass{article}
+\title{Neural Evolution of Augmenting Layer Topologies}
+\author{Calvin Reu}
+
+\usepackage{hyperref}
+
+\normalsize
+\linespread{1.25}
+\begin{document}
+   \maketitle
+   \section{Introduction}
+   This article explains the fundamental principles of this algorithm which aims to use the extreme diversity of neural networks with augmenting topologies and the fast learning rate of neural networks which do not change their topology. This algorithm is trying to achieve most of both goals by only using changes in topology when necessary. This learning method uses three main techniques to be efficient. The first and usual step of learning is weight mutation. This learning method ensures fast learning while but the accuracy is limited by the structure of the neural network. By adding or removing one layer, the topology changes a lot this way, the neural network will not stop learning without being accurate. The last technique ensures to preserve the progress of the neural networks by adapting the weights after a layer mutation.
+
+   \subsection{variable definitions}
+   variable named c is constant.
+
+   \subsection{population definition}
+   A population is a group of neural networks which use learning algorithms for neural networks with fixed, layer-based topologies. Multiple populations may exist. Populations will not compete with each other but will be merged into one population in certain circumstances.
+   \section{neural network}
+
+   \subsection{structure}
+   These neural networks may only have layers that are connected fully connected to the layers before and behind them. The Idea behind this limitation is to be able to accelerate the neural networks with hardware, which is designed for fixed layer topologies because they only use matrix multiplication.
+
+   \subsection{activation functions}
+   An activation function can use the different input signals separate from each other instead of adding them up and using them as one input, for example, $f_{activationFunc}(
+      \begin{array}{l|c|r}
+         input_1 & input_i &input_n
+      \end{array}
+      ) = input_1 * input_2 * ...$
+   
+
+   \section{standard mutation}
+   Standard mutation occurs when the learning rate is high.
+   \begin{center}
+   	for $E$ being the percentage of errors in $c_{runCount}$.
+   	
+   	$\delta E < minLearningRate$
+   \end{center}
+   It serves the task of learning fast by using learning methods for neural networks with fixed topologies. If there is an example of how to do it this formula can also be used to learn with supervised learning until the learning rate drops too much and then switch to semi or unsupervised learning methods.
+
+   \subsection{weight mutation}
+   Every weight changes with a likelihood of $p$ by a random value $x$. Every child has to have at least one different mutated weight to ensure that no performance is wasted.
+   \begin{center}
+      $p \leq 1$
+
+      $weightMutationAmmount > 0$
+
+      $weightMutationMax \geq x \geq - weightMutationMax$
+
+      $p\simeq weightMutationAmmount / weightMutationMax$
+   \end{center}
+
+   \subsection{parent selection}
+   $c_{parentCount}$ is the number of parents per population. the parents each generation are $c_{parentCount}$ parents, for every population individually, with the highest score.
+
+   \section{extreme mutation}
+   Extreme mutation occurs when the learning rate defined \hyperref[sec:standard mutation]{here}. In extreme mutation the topology of the neural network mutates by adding or removing a layer to make improvement which cannot be achieved by weight adjustement possible. $p_{addLayer} + p_{removeLayer} = 1$. $p_{addLayer}$ and $p_{removeLayer}$ do not have to be constant.
+
+   \subsection{missing layer compensation}
+To preserve the experience of the parents the children, which have one layer less than their parents, have adapted weights. $i$ is the index of the missing layer.
+   \linebreak
+
+   $\begin{array}{lcl}
+      if \ childLayerCount & < & parentLayerCount \\
+      childWeight_{layer_i} & \equiv & parentWeight_{layer_{i+1}} \\
+      act(childWeight_{layer_i}) & = & {act(parentWeight_{layer_i}*parentWeight_{layer_{i+1}})} \\
+   \end{array}$
+   \linebreak
+   
+   \subsection{population evaluation}
+To evaluate how good a population is the change in learning rate is measured
+$E = error Rate$
+$E_0*(E_1 - E_2)^2/(E_0 - E_1)$
+   
+\end{document}
